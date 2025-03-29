@@ -42,8 +42,5 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v3
 
-            - name: Set up CodeClimate CLI
-              uses: codeclimate/codeclimate-action@v1
-
             - name: Run analysis
-              run: codeclimate analyze
+              uses: mvn pmd:check
