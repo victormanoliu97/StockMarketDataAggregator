@@ -1,4 +1,4 @@
-name: Build and run tests when doing a PR
+name: Build and run tests on PR
 
 on:
     pull_request:
