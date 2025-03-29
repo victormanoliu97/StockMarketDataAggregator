@@ -36,7 +36,7 @@ jobs:
               run: mvn test
 
     quality-gate:
-        name: CodeClimate Scan
+        name: PMD Scan
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
