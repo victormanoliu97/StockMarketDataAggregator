@@ -21,8 +21,30 @@ jobs:
                 distribution: 'temurin'
                 java-version: 17
 
+            - name: Cache maven dependencies
+              uses: actions/cache@v3
+              with:
+                path: ~/.m2/repository
+                key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+                restore-keys: |
+                  ${{ runner.os }}-maven-
+
             - name: Clean install
               run:  mvn clean package -DskipTests
 
             - name: Run tests in project
               run: mvn test
+
+    quality-gate:
+        name: CodeClimate Scan
+        runs-on: ubuntu-latest
+        steps:
+          steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up CodeClimate CLI
+              uses: codeclimate/codeclimate-action@v1
+
+            - name: Run analysis
+              run: codeclimate analyze
