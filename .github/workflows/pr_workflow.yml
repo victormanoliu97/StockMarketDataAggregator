@@ -3,6 +3,9 @@ name: Build and run tests when doing a PR
 on:
     pull_request:
         types: [opened, closed]
+    push:
+      branches:
+        - 'feature/**'
 
 jobs:
     build-and-test:
