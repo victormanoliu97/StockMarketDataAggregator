@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "myTerraformStateBucket"
+  bucket = "vm-terraform-state-bucket"
 
   lifecycle {
     prevent_destroy = false  #This is because we want to destroy everything to reduce costs
