@@ -59,15 +59,9 @@ resource "aws_ssm_parameter" "db_username" {
 }
 
 resource "aws_ssm_parameter" "db_password" {
-  name = "/config/dev/stock-data-market-aggregator/spring.datasource.username"
+  name = "/config/dev/stock-data-market-aggregator/spring.datasource.password"
   type = "String"
   value = var.db_password
-}
-
-resource "aws_ssm_parameter" "db_database" {
-  name = "/config/dev/stock-data-market-aggregator/spring.datasource.username"
-  type = "String"
-  value = var.db_database
 }
 
 resource "aws_ssm_parameter" "db_url" {
