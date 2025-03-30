@@ -67,7 +67,7 @@ resource "aws_ssm_parameter" "db_password" {
 resource "aws_ssm_parameter" "db_url" {
   name = "/config/dev/stock-data-market-aggregator/spring.datasource.url"
   type = "String"
-  value = "dbc:mysql://${aws_instance.db_server.public_ip}:3306/${var.db_database}"
+  value = "jdbc:mysql://${aws_instance.db_server.public_ip}:3306/${var.db_database}"
 }
 
 resource "aws_ssm_parameter" "stock_api_key" {
