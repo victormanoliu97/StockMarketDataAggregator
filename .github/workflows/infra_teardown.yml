@@ -5,12 +5,49 @@ on:
 
 jobs:
   infra-teardown:
-    name: Tear down created infrastructure
+    name: Tear down created compute and secret resources
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
         working-directory: ./infrastructure/terraform/initial_infra_set_up/
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+          aws-region: '${{ secrets.AWS_REGION }}'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Destroy
+        env:
+          TF_VAR_db_username: ${{secrets.DB_USERNAME}}
+          TF_VAR_db_password: ${{secrets.DB_PASSWORD}}
+          TF_VAR_db_root_password: ${{secrets.DB_ROOT_PASSWORD}}
+          TF_VAR_db_database: ${{secrets.DB_DATABASE}}
+          TF_VAR_stock_api_key: ${{secrets.STOCK_API_KEY}}
+        run: terraform destroy -auto-approve
+
+  bucket-teardown:
+    name: Tear down terraform state bucket
+    needs: infra-teardown
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./infrastructure/terraform/terraform_state_bucket/
 
     steps:
       - name: Checkout code
