@@ -7,10 +7,8 @@ terraform {
   }
 }
 
-variable "region" {}
-
 provider "aws" {
-  region = var.region
+  region = "eu-central-1"
 }
 
 #Database variables

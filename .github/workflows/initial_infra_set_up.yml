@@ -32,12 +32,11 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        env:
-          TF_region: ${{ secrets.AWS_REGION }}
         run: terraform apply -auto-approve
 
   initial-infrastructure-setup:
     name: Set up the initial infrastructure required before the deploy
+    needs: configure-terraform
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -70,5 +69,4 @@ jobs:
           TF_VAR_db_root_password: ${{secrets.DB_ROOT_PASSWORD}}
           TF_VAR_db_database: ${{secrets.DB_DATABASE}}
           TF_VAR_stock_api_key: ${{secrets.STOCK_API_KEY}}
-          TF_region: ${{ secrets.AWS_REGION }}
         run: terraform apply -auto-approve

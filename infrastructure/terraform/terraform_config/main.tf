@@ -1,7 +1,5 @@
-variable "region" {}
-
 provider "aws" {
-  region = var.region
+  region = "eu-central-1"
 }
 
 resource "aws_s3_bucket" "terraform_state" {
@@ -28,7 +26,7 @@ terraform {
   backend "s3" {
     bucket  = "my-terraform-state-bucket"
     key     = "terraform/state.tfstate"
-    region  = var.region
+    region  = "eu-central-1"
     encrypt = true
   }
 }
