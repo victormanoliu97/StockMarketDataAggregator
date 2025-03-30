@@ -90,8 +90,8 @@ jobs:
         with:
           terraform_wrapper: false
 
-#      - name: Terraform Init
-#        run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
       - name: Terraform Apply
         env:
