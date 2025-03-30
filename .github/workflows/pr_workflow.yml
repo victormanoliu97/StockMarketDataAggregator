@@ -37,6 +37,7 @@ jobs:
 
     quality-gate:
         name: PMD Scan
+        needs: build-and-test
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
