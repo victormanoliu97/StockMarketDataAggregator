@@ -34,40 +34,9 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
-  configure-terraform:
-    name: Configure terraform state storing
-    needs: create-terraform-state-bucket
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./infrastructure/terraform/terraform_config/
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
-          aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-          aws-region: '${{ secrets.AWS_REGION }}'
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_wrapper: false
-
-      - name: Terraform Init
-        run: terraform init -reconfigure
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-
   initial-infrastructure-setup:
     name: Set up the initial infrastructure required before the deploy
-    needs: configure-terraform
+    needs: create-terraform-state-bucket
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -91,7 +60,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -reconfigure
 
       - name: Terraform Apply
         env:
